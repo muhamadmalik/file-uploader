@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser } from '../controller/auth.contollers';
+import { loginUser, logoutUser, registerUser } from '../controller/auth.contollers';
 
 const authRouter = express();
 
@@ -12,4 +12,7 @@ authRouter.get('/signup', (req, res) => {
 })
 
 authRouter.post('/signup', registerUser)
-export default authRouter
+authRouter.post('/login', loginUser )
+authRouter.post('/logout', logoutUser)
+
+export default authRouter  
