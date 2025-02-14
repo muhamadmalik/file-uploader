@@ -1,4 +1,3 @@
-import internal from 'stream';
 import db from '../config/prisma';
 
 export const createUser = async (username: string, password: string) => {
@@ -14,7 +13,15 @@ export const findUser = async (username: string) => {
 };
 
 export const findUserById = async (id: number) => {
-  return await db.user.findUnique({ where: { id } });
+  return await db.user.findUnique({
+    where: { id },
+    include: {
+      files: true,
+      folders: {
+        include: { files: true },
+      },
+    },
+  });
 };
 
 export const getUsers = async () => {
