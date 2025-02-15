@@ -5,8 +5,9 @@ import {
   getFolders,
   addFile,
   deleteFile,
+  getFile,
 } from '../db/models/drive';
-import { uploadToCloudinary } from './upload';
+import { delCloudFile, uploadToCloudinary } from './upload';
 
 export const getFolder = async (req, res) => {
   try {
@@ -53,11 +54,11 @@ export const addFileController = async (req, res) => {
       res.status(400).json({ message: 'No file uploaded' });
     }
     const cloudinaryUrl = await uploadToCloudinary(req.file.path);
-    console.log(req.file)
+    console.log(req.file);
     if (!cloudinaryUrl) {
       return res.status(500).json({ message: 'Upload failed' });
     }
-    const filename = req.file.originalname
+    const filename = req.file.originalname;
     const parsedFolderId = folderId ? parseInt(folderId, 10) : null;
     const file = await addFile(
       cloudinaryUrl,
@@ -71,11 +72,13 @@ export const addFileController = async (req, res) => {
   }
 };
 
-
 export const deleteFileController = async (req, res) => {
   try {
     const { id } = req.params;
+    const file = await getFile(parseInt(id));
+    await delCloudFile(file?.url);
     await deleteFile(parseInt(id));
+
     res.json({ message: 'File deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting file', error });

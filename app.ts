@@ -36,10 +36,6 @@ app.use(passport.session());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// deleteFile(2)
-// createFolder('firstFolder', 1)
-const url = 'thisistheurl'
-// addFile(url, 1, 'firstsldkfjfile')
 app.set('views', join(__dirname, 'views'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));

@@ -3,7 +3,15 @@ import db from '../config/prisma';
 export const getFiles = async (userId) => {
   return await db.file.findMany({ where: { userId } });
 };
-export const addFile = async (url, userId, filename: string, folderId: null | number = null) => {
+export const getFile = async (id) => {
+  return await db.file.findUnique({ where: { id } });
+};
+export const addFile = async (
+  url,
+  userId,
+  filename: string,
+  folderId: null | number = null
+) => {
   return await db.file.create({ data: { url, userId, filename, folderId } });
 };
 export const deleteFile = async (id) => {
