@@ -44,16 +44,28 @@ export const getFilesController = async (req, res) => {
 
 export const addFileController = async (req, res) => {
     try {
-        const { url, filename, folderId } = req.body;
-        const parsedFolderId = folderId ? parseInt(folderId, 10) : null;
-        console.log(req.body)
-        const file = await addFile(url, req.user.id, filename, parsedFolderId);
-        res.status(201).json(file);
+        // const { url, filename, folderId } = req.body;
+        // const parsedFolderId = folderId ? parseInt(folderId, 10) : null;
+        console.log(req.file)
+        // const file = await addFile(url, req.user.id, filename, parsedFolderId);
+        // res.status(201).json(file);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error adding file", error: error.message });
     }
 };
+// export const addFileController = async (req, res) => {
+//     try {
+//         const { url, filename, folderId } = req.body;
+//         const parsedFolderId = folderId ? parseInt(folderId, 10) : null;
+//         console.log(req.body)
+//         const file = await addFile(url, req.user.id, filename, parsedFolderId);
+//         res.status(201).json(file);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "Error adding file", error: error.message });
+//     }
+// };
 
 // 🔹 Delete a file
 export const deleteFileController = async (req, res) => {
