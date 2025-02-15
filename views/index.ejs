@@ -61,12 +61,11 @@
       }
 
       async function addFile(folderId = null) {
-        const fileName = prompt('Enter file name:');
-        if (fileName) {
+        
           const response = await fetch('/folders/files', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({url: 'theUrl',  filename: fileName, folderId }),
+            body: JSON.stringify({ folderId }),
           });
 
           if (response.ok) {
@@ -79,7 +78,7 @@
           } else {
             alert('Failed to add file.');
           }
-        }
+        
       }
 
       async function deleteFile(fileId) {

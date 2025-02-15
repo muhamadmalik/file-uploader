@@ -11,7 +11,7 @@ import passport from './controller/passportConfig';
 import { PrismaClient } from '@prisma/client';
 import indexRouter from './routes/index.route';
 import { deflateSync } from 'zlib';
-import { addFile, createFolder, deleteFile } from './db/models/drive';
+import { addFile, createFolder, deleteFile, getFiles } from './db/models/drive';
 import driveRouter from './routes/drive.routes';
 configDotenv()
       const app = express();
@@ -35,6 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 // deleteFile(2)
 // createFolder('firstFolder', 1)
 const url = 'thisistheurl'
