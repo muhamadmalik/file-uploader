@@ -1,6 +1,7 @@
 import db from '../config/prisma';
 
 export const createUser = async (username: string, password: string) => {
+    
   return await db.user.create({
     data: { username, password },
   });

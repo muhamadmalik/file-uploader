@@ -27,7 +27,9 @@ export const loginUser = async (req, res, next) => {
     }
     req.login(user, (error) => {
       if (error) return next(error);
-      return res.json({ message: 'Login Successful', user });
+
+      // return res.json({ message: 'Login Successful', user });
+      return res.redirect('/');
     });
   })(req, res, next);
 };
