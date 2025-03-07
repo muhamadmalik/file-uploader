@@ -51,24 +51,27 @@ export const addFileController = async (req, res) => {
   const { folderId } = req.body;
   try {
     if (!req.file) {
-      res.status(400).json({ message: 'No file uploaded' });
+      return res.render('upload', { message: 'No file uploaded', error: true });
     }
+
     const cloudinaryUrl = await uploadToCloudinary(req.file.path);
-    console.log(req.file);
     if (!cloudinaryUrl) {
-      return res.status(500).json({ message: 'Upload failed' });
+      return res.render('upload', { message: 'Upload failed', error: true });
     }
+
     const filename = req.file.originalname;
     const parsedFolderId = folderId ? parseInt(folderId, 10) : null;
-    const file = await addFile(
-      cloudinaryUrl,
-      req.user.id,
-      filename,
-      parsedFolderId
-    );
-    res.json({ message: 'File Uploaded successfully', url: cloudinaryUrl });
+
+    await addFile(cloudinaryUrl, req.user.id, filename, parsedFolderId);
+
+    return res.render('upload', {
+      message: 'File Uploaded successfully',
+      error: false,
+      url: cloudinaryUrl,
+    });
   } catch (error) {
     console.error(error);
+    res.render('upload', { message: 'An error occurred', error: true });
   }
 };
 
