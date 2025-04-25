@@ -11,7 +11,11 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
     const user = await createUser(username, encryptedPassword);
-    res.redirect('/auth/signup');
+    // res.redirect('/auth/signup');
+    const userData = { id: user.id, username: user.username };
+    res
+      .status(201)
+      .json({ message: 'User registered successfully', user: userData });
   } catch (error) {
     res.status(500).json({ message: 'Error registering user' });
   }
@@ -29,7 +33,9 @@ export const loginUser = async (req, res, next) => {
       if (error) return next(error);
 
       // return res.json({ message: 'Login Successful', user });
-      return res.redirect('/');
+      // return res.redirect('/');
+      const userData = { id: user.id, username: user.username };
+      return res.json({ message: 'Login Successful', user: userData });
     });
   })(req, res, next);
 };

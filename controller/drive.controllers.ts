@@ -51,27 +51,42 @@ export const addFileController = async (req, res) => {
   const { folderId } = req.body;
   try {
     if (!req.file) {
-      return res.render('upload', { message: 'No file uploaded', error: true });
+      // return res.render('upload', { message: 'No file uploaded', error: true });
+      return res.status(400).json({ message: 'No file uploaded' });
     }
 
     const cloudinaryUrl = await uploadToCloudinary(req.file.path);
     if (!cloudinaryUrl) {
-      return res.render('upload', { message: 'Upload failed', error: true });
+      return res.status(500).json({ message: 'Cloud upload failed' });
     }
 
     const filename = req.file.originalname;
     const parsedFolderId = folderId ? parseInt(folderId, 10) : null;
 
-    await addFile(cloudinaryUrl, req.user.id, filename, parsedFolderId);
+    const newFile = await addFile(
+      cloudinaryUrl,
+      req.user.id,
+      filename,
+      parsedFolderId
+    );
 
-    return res.render('upload', {
-      message: 'File Uploaded successfully',
-      error: false,
-      url: cloudinaryUrl,
-    });
+    // return res.render('upload', {
+    //   message: 'File Uploaded successfully',
+    //   error: false,
+    //   url: cloudinaryUrl,
+    // });
+    return res
+      .status(201)
+      .json({ message: 'File Uploaded successfully', file: newFile });
   } catch (error) {
     console.error(error);
-    res.render('upload', { message: 'An error occurred', error: true });
+    // res.render('upload', { message: 'An error occurred', error: true });
+    res
+      .status(500)
+      .json({
+        message: 'An error occurred during file upload',
+        error: error.message,
+      });
   }
 };
 
@@ -79,11 +94,14 @@ export const deleteFileController = async (req, res) => {
   try {
     const { id } = req.params;
     const file = await getFile(parseInt(id));
+    if (!file) {
+      return res.status(404).json({ message: 'File not found' });
+  }
     await delCloudFile(file?.url);
     await deleteFile(parseInt(id));
 
-    res.json({ message: 'File deleted successfully' });
+res.json({ message: 'File deleted successfully', deletedFileId: parseInt(id) });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting file', error });
+    res.status(500).json({ message: 'Error deleting file', error: error.message });
   }
-};
+}
