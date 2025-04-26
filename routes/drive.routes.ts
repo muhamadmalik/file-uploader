@@ -8,13 +8,14 @@ import { upload } from '../controller/upload';
 const driveRouter = express.Router();
 
 
+
+driveRouter.delete('/files/:id', deleteFileController); 
+driveRouter.get('/files', getFilesController);
+driveRouter.post('/file/upload', upload.single('file') , addFileController); 
 driveRouter.get('/', getFoldersController); 
 driveRouter.get('/:id', getFolderController); 
 driveRouter.post('/', addFolder); 
-driveRouter.delete('/:id', delFolder); 
+driveRouter.delete('/:id', delFolder);
 
-driveRouter.get('/files', getFilesController);
-driveRouter.post('/file/upload', upload.single('file') ,addFileController); 
-driveRouter.delete('/files/:id', deleteFileController); 
 
 export default driveRouter;                    

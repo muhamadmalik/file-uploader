@@ -13,11 +13,12 @@ import { delCloudFile, uploadToCloudinary } from './upload';
 export const getFolderController = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(typeof(parseInt(id)))
     const folder = await getFolder(parseInt(id));
 
     res.json(folder);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching folder', error });
+    res.status(500).json({ message: 'Error fetchasdfasdfing folder', error });
   }
 };
 export const getFoldersController = async (req, res) => {
@@ -25,7 +26,7 @@ export const getFoldersController = async (req, res) => {
     const folder = await getFolders(req.user.id);
     res.json(folder);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching folders', error });
+    res.status(500).json({ message: 'Error fetching kjkjfolders', error });
   }
 };
 
@@ -51,7 +52,9 @@ export const delFolder = async (req, res) => {
 
 export const getFilesController = async (req, res) => {
   try {
+    console.log(req.user.id)
     const files = await getFiles(req.user.id);
+
     res.json(files);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching files', error });

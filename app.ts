@@ -44,12 +44,11 @@ app.use(passport.session());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.set('views', join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/users/', userRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/drive', driveRouter);
+app.use('/api/auth/', authRouter);
+app.use('/api/drive/', driveRouter);
 app.set('view engine', 'ejs');
 const port = 5000
 app.listen(port, async () => {
