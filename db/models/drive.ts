@@ -21,6 +21,11 @@ export const deleteFile = async (id) => {
 export const createFolder = async (name, userId) => {
   return await db.folder.create({ data: { name, userId } });
 };
+export const getFolder = async(id) => {
+
+  return await db.folder.findUnique({where: {id}, include: {files: true
+  }})
+} 
 export const getFolders = async (userId) => {
   return await db.folder.findMany({ where: { userId } });
 };

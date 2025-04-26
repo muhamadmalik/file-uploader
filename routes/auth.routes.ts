@@ -3,13 +3,13 @@ import { loginUser, logoutUser, registerUser } from '../controller/auth.contolle
 
 const authRouter = express();
 
-authRouter.get('/login', (req, res) => {
-    res.render('login')
-});
-
-authRouter.get('/signup', (req, res) => {
-    res.render('signup')
-})
+// authRouter.get('/login', (req, res) => {
+//     res.render('login')
+// });
+// 
+// authRouter.get('/signup', (req, res) => {
+//     res.render('signup')
+// })
 
 authRouter.post('/signup', registerUser)
 authRouter.post('/login', loginUser )

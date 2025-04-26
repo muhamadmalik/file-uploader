@@ -6,13 +6,24 @@ import {
   addFile,
   deleteFile,
   getFile,
+  getFolder
 } from '../db/models/drive';
 import { delCloudFile, uploadToCloudinary } from './upload';
 
-export const getFolder = async (req, res) => {
+export const getFolderController = async (req, res) => {
   try {
-    const folders = await getFolders(req.user.id);
-    res.json(folders);
+    const { id } = req.params;
+    const folder = await getFolder(parseInt(id));
+
+    res.json(folder);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching folder', error });
+  }
+};
+export const getFoldersController = async (req, res) => {
+  try {
+    const folder = await getFolders(req.user.id);
+    res.json(folder);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching folders', error });
   }

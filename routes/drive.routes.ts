@@ -1,6 +1,6 @@
 import express from 'express';
 import { 
-    getFolder, addFolder, delFolder, 
+    getFolderController, addFolder, delFolder, getFoldersController, 
     getFilesController, addFileController, deleteFileController 
 } from '../controller/drive.controllers';
 import { upload } from '../controller/upload';
@@ -8,7 +8,8 @@ import { upload } from '../controller/upload';
 const driveRouter = express.Router();
 
 
-driveRouter.get('/', getFolder); 
+driveRouter.get('/', getFoldersController); 
+driveRouter.get('/:id', getFolderController); 
 driveRouter.post('/', addFolder); 
 driveRouter.delete('/:id', delFolder); 
 

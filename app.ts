@@ -9,12 +9,20 @@ import { configDotenv } from 'dotenv';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import passport from './controller/passportConfig';
 import { PrismaClient } from '@prisma/client';
-import indexRouter from './routes/index.route';
+import userRouter from './routes/index.route';
 import { deflateSync } from 'zlib';
-import { addFile, createFolder, deleteFile, getFiles } from './db/models/drive';
+import { addFile, createFolder, deleteFile, getFiles, getFolder } from './db/models/drive';
 import driveRouter from './routes/drive.routes';
-configDotenv()
-      const app = express();
+import cors from 'cors';
+
+configDotenv();
+
+
+const app = express();
+app.use(cors({
+  origin: 'http://localhost:8080', 
+  credentials: true 
+}));
 app.use(
   session({
     cookie: {
@@ -37,13 +45,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.set('views', join(__dirname, 'views'));
-app.use(express.json())
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/', indexRouter);
-app.use('/auth', authRouter);
-app.use('/folders', driveRouter)
+app.use('/api/users/', userRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/drive', driveRouter);
 app.set('view engine', 'ejs');
-
-app.listen(3000, () => {
-  console.log('we are here listening at 3000');
+const port = 5000
+app.listen(port, async () => {
+  console.log(await getFolder(6))
+  console.log('we are here listening at 5000');
 });
+  
